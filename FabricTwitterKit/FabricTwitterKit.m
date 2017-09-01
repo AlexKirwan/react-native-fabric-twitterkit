@@ -37,9 +37,15 @@ RCT_EXPORT_METHOD(login:(RCTResponseSenderBlock)callback)
     }];
 }
 
-RCT_EXPORT_METHOD(fetchProfile:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(fetchProfile:(NSDictionary *)options :(RCTResponseSenderBlock)callback)
 {
+    NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
+    NSNumber *userContext = options[@"userContext"];
+
     TWTRAPIClient *client = [[TWTRAPIClient alloc] init];
+    if (userContext) {
+        client = [[TWTRAPIClient alloc] initWithUserID:userID];
+    }
     TWTRSessionStore *store = [[Twitter sharedInstance] sessionStore];
 
     TWTRSession *lastSession = store.session;
@@ -90,7 +96,12 @@ RCT_EXPORT_METHOD(fetchProfile:(RCTResponseSenderBlock)callback)
 
 RCT_EXPORT_METHOD(fetchTweet:(NSDictionary *)options :(RCTResponseSenderBlock)callback)
 {
+    NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
+    NSNumber *userContext = options[@"userContext"];
     TWTRAPIClient *client = [[TWTRAPIClient alloc] init];
+    if (userContext) {
+        client = [[TWTRAPIClient alloc] initWithUserID:userID];
+    }
     TWTRSessionStore *store = [[Twitter sharedInstance] sessionStore];
     NSString *id = options[@"id"];
     NSString *trim_user = options[@"trim_user"];
@@ -150,7 +161,13 @@ RCT_EXPORT_METHOD(composeTweet:(NSDictionary *)options :(RCTResponseSenderBlock)
 
     NSString *body = options[@"body"];
 
-    TWTRComposer *composer = [[TWTRComposer alloc] init];
+    NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
+    NSNumber *userContext = options[@"userContext"];
+    TWTRAPIClient *client = [[TWTRAPIClient alloc] init];
+    if (userContext) {
+        client = [[TWTRAPIClient alloc] initWithUserID:userID];
+    }
+    TWTRSessionStore *store = [[Twitter sharedInstance] sessionStore];
 
     if (body) {
         [composer setText:body];
