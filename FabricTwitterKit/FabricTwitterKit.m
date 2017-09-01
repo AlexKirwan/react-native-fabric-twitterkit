@@ -161,13 +161,7 @@ RCT_EXPORT_METHOD(composeTweet:(NSDictionary *)options :(RCTResponseSenderBlock)
 
     NSString *body = options[@"body"];
 
-    NSString *userID = [Twitter sharedInstance].sessionStore.session.userID;
-    NSNumber *userContext = options[@"userContext"];
-    TWTRAPIClient *client = [[TWTRAPIClient alloc] init];
-    if (userContext) {
-        client = [[TWTRAPIClient alloc] initWithUserID:userID];
-    }
-    TWTRSessionStore *store = [[Twitter sharedInstance] sessionStore];
+    TWTRComposer *composer = [[TWTRComposer alloc] init];
 
     if (body) {
         [composer setText:body];
