@@ -14,8 +14,8 @@ module.exports = {
   login: function (cb) {
     SMXTwitter.login(cb);
   },
-  fetchProfile: function (options, cb) {
-    SMXTwitter.fetchProfile(options, cb);
+  fetchProfile: function (cb) {
+    SMXTwitter.fetchProfile(cb);
   },
   fetchTweet: function (options, cb) {
     SMXTwitter.fetchTweet(options, cb);
